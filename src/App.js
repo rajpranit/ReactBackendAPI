@@ -4,11 +4,14 @@ import { useState } from "react";
 
 const App = () => {
   const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function fetchMovieHandler() {
+    setIsLoading(true);
     const response = await fetch("https://swapi.py4e.com/api/films/");
 
     const data = await response.json();
+    console.log("getting data");
 
     const TransformedData = data.results.map((movie) => {
       return {
@@ -19,6 +22,7 @@ const App = () => {
       };
     });
     setMovies(TransformedData);
+    setIsLoading(false);
   }
 
   return (
@@ -27,7 +31,8 @@ const App = () => {
         <button onClick={fetchMovieHandler}>Fetch Movies</button>
       </section>
       <section>
-        <MoviesList movies={movies} />
+        {!isLoading ? <MoviesList movies={movies} /> : <h3>loading...</h3>}
+        {!isLoading && movies.length === 0 && <p>No movies found</p>}
       </section>
     </>
   );
