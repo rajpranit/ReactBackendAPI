@@ -7,6 +7,7 @@ const MoviesList = (props) => {
     <ul className={styles["movies-list"]}>
       {props.movies.map((movie) => (
         <Movie
+          key={movie.id}
           name={movie.title}
           description={movie.openingText}
           releasedate={movie.releaseDate}
